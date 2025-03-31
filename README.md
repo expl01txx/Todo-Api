@@ -2,7 +2,66 @@
 
 ## RESTful API для управления задачами с аутентификацией JWT, построенный на PHP 8.1+ и MySQL/PostgreSQL.
 
-### Функции
+## Запуск
+### Краткая инструкция по запуску To-Do List API без Docker
+
+#### 1. Требования
+- PHP 8.1+
+- MySQL 5.7+/MariaDB 10.3+
+- Composer
+- Веб-сервер (Apache/Nginx) или встроенный сервер PHP
+
+#### 2. Установка зависимостей
+```bash
+composer install
+```
+
+#### 3. Настройка базы данных
+1. Создайте БД:
+```sql
+CREATE DATABASE todo_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+
+2. Создайте пользователя и выдайте права:
+```sql
+CREATE USER 'todo_user'@'localhost' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON todo_db.* TO 'todo_user'@'localhost';
+FLUSH PRIVILEGES;
+```
+
+3. Импортируйте схему:
+```bash
+mysql -u todo_user -p todo_db < init_db.sql
+```
+
+#### 4. Настройка окружения
+Скопируйте `.env-example` в `.env` и отредактируйте:
+```ini
+DB_HOST=localhost
+DB_NAME=todo_db
+DB_USER=todo_user
+DB_PASS=password
+JWT_SECRET=your_random_secret_key
+```
+
+#### 5. Запуск (варианты)
+**С встроенным PHP-сервером:**
+```bash
+php -S localhost:8000 -t public
+```
+
+**С Apache/Nginx:**
+- Настройте виртуальный хост, указывающий на папку `public/`
+- Включите mod_rewrite для Apache
+
+#### 6. Проверка работы
+Откройте в браузере:
+```
+http://localhost:8000/tasks
+```
+Должна быть ошибка 401 (требуется авторизация) - это нормально.
+
+##  Функции
 
 - Аутентификация JWT
 
