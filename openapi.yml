@@ -1,0 +1,68 @@
+openapi: 3.0.0
+info:
+  title: To-Do List API
+  description: RESTful API для управления задачами с JWT аутентификацией
+  version: 1.0.0
+servers:
+  - url: http://localhost
+    description: Локальный сервер разработки
+tags:
+  - name: Аутентификация
+    description: Регистрация и авторизация пользователей
+  - name: Задачи
+    description: Операции с задачами
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Пользователь:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+          example: user@example.com
+        password:
+          type: string
+          format: password
+          example: securepassword123
+    Задача:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        user_id:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: Купить продукты
+        description:
+          type: string
+          example: Молоко, хлеб, яйца
+        status:
+          type: string
+          enum: [в работе, завершено, дедлайн]
+          example: в работе
+        deadline:
+          type: string
+          format: date-time
+          nullable: true
+          example: 2023-12-31T18:00:00+00:00
+        created_at:
+          type: string
+          format: date-time
+          example: 2023-11-20T14:30:00+00:00
+    Ошибка:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Неверные учетные данные
